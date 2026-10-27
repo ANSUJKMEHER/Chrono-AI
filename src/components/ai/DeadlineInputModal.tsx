@@ -45,6 +45,10 @@ export const DeadlineInputModal: React.FC<DeadlineInputModalProps> = ({
 
   const sampleMessages = [
     {
+      label: 'CS 4803: Deep Learning (Demo)',
+      text: 'CS 4803: Submit the Deep Learning assignment by October 29, 2026, at 11:59 PM. Train a CNN model on CIFAR-10, evaluate its performance, and submit a report with validation curves and screenshots. The final report must be uploaded before the deadline.',
+    },
+    {
       label: 'ML Assignment (Detailed)',
       text: 'Submit the machine learning assignment by October 29, 2026, at 11:59 PM. Train a CNN model, evaluate its performance, and submit a report with screenshots. The final report must be uploaded before the deadline.',
     },
