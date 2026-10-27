@@ -1,5 +1,5 @@
 import React from 'react';
-import { Plus, Sparkles, Clock, Calendar, CheckCircle } from 'lucide-react';
+import { Plus } from 'lucide-react';
 import { OnboardingHero } from '../components/dashboard/OnboardingHero';
 import { SmartInsights } from '../components/dashboard/SmartInsights';
 import { SummaryCards } from '../components/dashboard/SummaryCards';
@@ -8,7 +8,6 @@ import { WorkloadBar } from '../components/dashboard/WorkloadBar';
 import { UpcomingTasks } from '../components/dashboard/UpcomingTasks';
 import { getGreeting } from '../utils/dateUtils';
 import { Task } from '../types/task';
-import { useTasks } from '../context/TaskContext';
 
 interface DashboardPageProps {
   onOpenTaskDetails: (task: Task) => void;
@@ -22,7 +21,6 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
   searchQuery = '',
 }) => {
   const { greeting, subtitle } = getGreeting();
-  const { tasks } = useTasks();
 
   return (
     <div className="space-y-6">
@@ -32,15 +30,15 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
       {/* 2. Sleek Contextual Greeting Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 py-1">
         <div>
-          <div className="flex items-center gap-2 mb-1">
-            <span className="text-[11px] font-bold uppercase tracking-wider text-indigo-700 bg-indigo-50 border border-indigo-200/60 px-2.5 py-0.5 rounded-md">
+          <div className="flex items-center gap-2 mb-1.5">
+            <span className="text-[10px] font-bold uppercase tracking-wider text-indigo-700 dark:text-indigo-300 bg-indigo-50 dark:bg-indigo-950/80 border border-indigo-200/60 dark:border-indigo-800/60 px-2.5 py-0.5 rounded-md">
               Deadline Intelligence Console
             </span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">
             {greeting}
           </h1>
-          <p className="text-xs sm:text-sm text-slate-500 mt-1">
+          <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
             {subtitle} ChronoAI converts unstructured assignment announcements into backward preparation schedules.
           </p>
         </div>
@@ -48,7 +46,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
         <div className="flex items-center gap-2.5">
           <button
             onClick={onOpenAddModal}
-            className="flex items-center gap-2 px-4.5 py-2.5 bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white font-semibold text-xs sm:text-sm rounded-xl shadow-xs shadow-indigo-600/20 transition-all hover:scale-[1.02]"
+            className="flex items-center gap-2 px-4.5 py-2.5 bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-500 hover:to-indigo-600 active:scale-[0.98] text-white font-semibold text-xs sm:text-sm rounded-xl shadow-md shadow-indigo-600/25 border border-indigo-500/30 transition-all hover:scale-[1.02]"
           >
             <Plus className="w-4 h-4 stroke-[2.5]" />
             <span>Import a Deadline</span>

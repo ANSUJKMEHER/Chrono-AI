@@ -42,7 +42,7 @@ export const AppLayout: React.FC<AppLayoutProps> = ({
   }, []);
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col font-sans">
+    <div className="min-h-screen bg-slate-50 dark:bg-obsidian-950 text-slate-900 dark:text-slate-100 flex flex-col font-sans transition-colors duration-200">
       {/* Sidebar Navigation */}
       <Sidebar
         activeTab={activeTab}

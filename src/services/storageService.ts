@@ -9,6 +9,7 @@ const STORAGE_KEYS = {
 };
 
 export const DEFAULT_SETTINGS: UserSettings = {
+  theme: 'dark',
   timezone: typeof Intl !== 'undefined' ? Intl.DateTimeFormat().resolvedOptions().timeZone : 'UTC',
   preferredWorkingHours: {
     start: '09:00',

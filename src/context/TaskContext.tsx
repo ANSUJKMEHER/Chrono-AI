@@ -36,6 +36,7 @@ interface TaskContextType {
   loadDemoData: () => void;
   clearAllData: () => void;
   regenerateTaskPlan: (taskId: string, strategy?: PlanningStrategy) => void;
+  toggleTheme: () => void;
   stats: {
     dueToday: number;
     dueThisWeek: number;
@@ -74,6 +75,26 @@ export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({ children
   useEffect(() => {
     StorageService.saveInboxItems(inbox);
   }, [inbox]);
+
+  // Synchronize dark/light theme on documentElement
+  useEffect(() => {
+    const root = document.documentElement;
+    const isDark = settings.theme === 'dark' || (!settings.theme && window.matchMedia?.('(prefers-color-scheme: dark)').matches);
+    if (isDark) {
+      root.classList.add('dark');
+    } else {
+      root.classList.remove('dark');
+    }
+  }, [settings.theme]);
+
+  const toggleTheme = useCallback(() => {
+    setSettings(prev => {
+      const nextTheme = prev.theme === 'dark' ? 'light' : 'dark';
+      const updated: UserSettings = { ...prev, theme: nextTheme };
+      StorageService.saveSettings(updated);
+      return updated;
+    });
+  }, []);
 
   const updateSettings = useCallback((newSettings: UserSettings) => {
     setSettings(newSettings);
@@ -408,6 +429,7 @@ export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({ children
         loadDemoData,
         clearAllData,
         regenerateTaskPlan,
+        toggleTheme,
         stats,
         calendarEvents,
       }}

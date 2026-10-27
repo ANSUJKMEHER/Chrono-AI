@@ -2,15 +2,14 @@ import React, { useState } from 'react';
 import {
   Settings as SettingsIcon,
   Sparkles,
-  Zap,
-  Clock,
-  Shield,
   Save,
   CheckCircle,
   AlertTriangle,
   RotateCcw,
   Trash2,
   Sliders,
+  Moon,
+  Sun,
 } from 'lucide-react';
 import { useTasks } from '../context/TaskContext';
 import { useToast } from '../components/common/Toast';
@@ -52,24 +51,73 @@ export const SettingsPage: React.FC = () => {
     <div className="max-w-3xl mx-auto space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
-          <SettingsIcon className="w-5 h-5 text-indigo-600" />
+        <h1 className="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white flex items-center gap-2 tracking-tight">
+          <SettingsIcon className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
           Settings & Preferences
         </h1>
-        <p className="text-xs sm:text-sm text-slate-500 mt-1">
-          Configure preparation algorithms, working hours, and AI engine connections
+        <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">
+          Configure preparation algorithms, dark/light themes, and AI engine connections
         </p>
       </div>
 
-      {/* AI Engine Configuration Card */}
-      <div className="p-6 bg-white rounded-2xl border border-slate-200/90 shadow-2xs space-y-5">
-        <div className="flex items-start justify-between gap-3 pb-3 border-b border-slate-100">
+      {/* Appearance & Interface Theme Card */}
+      <div className="p-6 bg-white dark:bg-obsidian-900 rounded-3xl border border-slate-200/90 dark:border-white/[0.08] shadow-2xs space-y-4 transition-colors">
+        <div className="pb-3 border-b border-slate-100 dark:border-white/[0.06] flex items-center justify-between">
           <div>
-            <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wider flex items-center gap-2">
-              <Sparkles className="w-4 h-4 text-indigo-600" />
+            <h3 className="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider flex items-center gap-2">
+              <Sun className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
+              Interface Theme
+            </h3>
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+              Choose between Obsidian Dark (Linear aesthetic) or Clean Light (Amie aesthetic)
+            </p>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-2 gap-3">
+          <button
+            type="button"
+            onClick={() => setForm(prev => ({ ...prev, theme: 'dark' }))}
+            className={`p-4 rounded-2xl border flex items-center gap-3 transition-all ${
+              form.theme === 'dark'
+                ? 'bg-indigo-50/80 dark:bg-indigo-950/40 border-indigo-600 text-indigo-700 dark:text-indigo-300 ring-2 ring-indigo-500/20'
+                : 'bg-slate-50 dark:bg-obsidian-850 border-slate-200 dark:border-white/[0.06] text-slate-700 dark:text-slate-400'
+            }`}
+          >
+            <Moon className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
+            <div className="text-left">
+              <div className="text-xs font-bold">Obsidian Dark</div>
+              <div className="text-[11px] text-slate-400">Deep palette for high focus</div>
+            </div>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setForm(prev => ({ ...prev, theme: 'light' }))}
+            className={`p-4 rounded-2xl border flex items-center gap-3 transition-all ${
+              form.theme === 'light'
+                ? 'bg-indigo-50/80 dark:bg-indigo-950/40 border-indigo-600 text-indigo-700 dark:text-indigo-300 ring-2 ring-indigo-500/20'
+                : 'bg-slate-50 dark:bg-obsidian-850 border-slate-200 dark:border-white/[0.06] text-slate-700 dark:text-slate-400'
+            }`}
+          >
+            <Sun className="w-5 h-5 text-amber-500" />
+            <div className="text-left">
+              <div className="text-xs font-bold">Minimal Light</div>
+              <div className="text-[11px] text-slate-400">Warm and clean day aesthetic</div>
+            </div>
+          </button>
+        </div>
+      </div>
+
+      {/* AI Engine Configuration Card */}
+      <div className="p-6 bg-white dark:bg-obsidian-900 rounded-3xl border border-slate-200/90 dark:border-white/[0.08] shadow-2xs space-y-5 transition-colors">
+        <div className="flex items-start justify-between gap-3 pb-3 border-b border-slate-100 dark:border-white/[0.06]">
+          <div>
+            <h3 className="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider flex items-center gap-2">
+              <Sparkles className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
               AI Intelligence Engine
             </h3>
-            <p className="text-xs text-slate-500 mt-0.5">
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
               Choose between live LLM parsing or built-in deterministic offline rules
             </p>
           </div>
@@ -77,8 +125,8 @@ export const SettingsPage: React.FC = () => {
           <span
             className={`text-xs font-bold px-2.5 py-1 rounded-full border ${
               form.aiProvider !== 'fallback_only' && form.apiKey
-                ? 'bg-indigo-50 text-indigo-700 border-indigo-200'
-                : 'bg-amber-50 text-amber-800 border-amber-200'
+                ? 'bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300 border-indigo-200 dark:border-indigo-800/60'
+                : 'bg-amber-50 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 border-amber-200 dark:border-amber-800/60'
             }`}
           >
             {form.aiProvider !== 'fallback_only' && form.apiKey ? 'AI Enabled' : 'Fallback Parser'}
@@ -87,7 +135,7 @@ export const SettingsPage: React.FC = () => {
 
         <div className="space-y-4">
           <div>
-            <label className="text-xs font-semibold text-slate-700 block mb-1">
+            <label className="text-xs font-semibold text-slate-700 dark:text-slate-300 block mb-1">
               Provider Mode
             </label>
             <select
@@ -112,10 +160,10 @@ export const SettingsPage: React.FC = () => {
                   modelName: model,
                 }));
               }}
-              className="w-full text-xs font-medium p-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:border-indigo-500"
+              className="w-full text-xs font-medium p-2.5 bg-slate-50 dark:bg-obsidian-800 text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-white/[0.08] rounded-xl focus:bg-white dark:focus:bg-obsidian-750 focus:outline-none focus:border-indigo-500"
             >
               <option value="fallback_only">Deterministic Rule Parser (Offline / No Key Needed)</option>
-              <option value="nvidia">NVIDIA NIM (Nemotron 3 Ultra 550B - Flagship)</option>
+              <option value="nvidia">NVIDIA NIM (Nemotron 3 Ultra 550B - Active Hackathon Model)</option>
               <option value="openai">OpenAI (GPT-4o / GPT-4o-mini)</option>
               <option value="custom">Custom OpenAI-Compatible API Endpoint</option>
             </select>
@@ -124,7 +172,7 @@ export const SettingsPage: React.FC = () => {
           {form.aiProvider !== 'fallback_only' && (
             <>
               <div>
-                <label className="text-xs font-semibold text-slate-700 block mb-1">
+                <label className="text-xs font-semibold text-slate-700 dark:text-slate-300 block mb-1">
                   API Key
                 </label>
                 <input
@@ -132,34 +180,34 @@ export const SettingsPage: React.FC = () => {
                   value={form.apiKey}
                   onChange={e => setForm((prev: UserSettings) => ({ ...prev, apiKey: e.target.value }))}
                   placeholder="Enter API key (stored securely in browser localStorage only)..."
-                  className="w-full text-xs font-mono p-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:border-indigo-500"
+                  className="w-full text-xs font-mono p-2.5 bg-slate-50 dark:bg-obsidian-800 text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-white/[0.08] rounded-xl focus:bg-white dark:focus:bg-obsidian-750 focus:outline-none focus:border-indigo-500"
                 />
-                <span className="text-[11px] text-slate-400 mt-1 block">
+                <span className="text-[11px] text-slate-400 dark:text-slate-500 mt-1 block">
                   Never transmitted to any third party server. Used strictly for direct client-to-API inference.
                 </span>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="text-xs font-semibold text-slate-700 block mb-1">
+                  <label className="text-xs font-semibold text-slate-700 dark:text-slate-300 block mb-1">
                     API Endpoint
                   </label>
                   <input
                     type="text"
                     value={form.apiEndpoint}
                     onChange={e => setForm((prev: UserSettings) => ({ ...prev, apiEndpoint: e.target.value }))}
-                    className="w-full text-xs font-mono p-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:border-indigo-500"
+                    className="w-full text-xs font-mono p-2 bg-slate-50 dark:bg-obsidian-800 text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-white/[0.08] rounded-xl focus:bg-white dark:focus:bg-obsidian-750 focus:outline-none focus:border-indigo-500"
                   />
                 </div>
                 <div>
-                  <label className="text-xs font-semibold text-slate-700 block mb-1">
+                  <label className="text-xs font-semibold text-slate-700 dark:text-slate-300 block mb-1">
                     Model Identifier
                   </label>
                   <input
                     type="text"
                     value={form.modelName}
                     onChange={e => setForm((prev: UserSettings) => ({ ...prev, modelName: e.target.value }))}
-                    className="w-full text-xs font-mono p-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:border-indigo-500"
+                    className="w-full text-xs font-mono p-2 bg-slate-50 dark:bg-obsidian-800 text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-white/[0.08] rounded-xl focus:bg-white dark:focus:bg-obsidian-750 focus:outline-none focus:border-indigo-500"
                   />
                 </div>
               </div>
@@ -169,7 +217,7 @@ export const SettingsPage: React.FC = () => {
                   type="button"
                   onClick={handleTest}
                   disabled={isTesting || !form.apiKey.trim()}
-                  className="px-3.5 py-1.5 text-xs font-semibold bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl transition-colors disabled:opacity-50"
+                  className="px-3.5 py-1.5 text-xs font-semibold bg-slate-100 dark:bg-obsidian-800 hover:bg-slate-200 dark:hover:bg-obsidian-750 text-slate-700 dark:text-slate-200 rounded-xl transition-colors disabled:opacity-50"
                 >
                   {isTesting ? 'Testing connection...' : 'Test API Connection'}
                 </button>
@@ -177,7 +225,7 @@ export const SettingsPage: React.FC = () => {
                 {testResult && (
                   <span
                     className={`text-xs font-medium flex items-center gap-1 ${
-                      testResult.success ? 'text-emerald-600' : 'text-rose-600'
+                      testResult.success ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-600 dark:text-rose-400'
                     }`}
                   >
                     {testResult.success ? (
@@ -195,32 +243,32 @@ export const SettingsPage: React.FC = () => {
       </div>
 
       {/* Preparation Planning Constraints Card */}
-      <div className="p-6 bg-white rounded-2xl border border-slate-200/90 shadow-2xs space-y-5">
-        <div className="pb-3 border-b border-slate-100">
-          <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wider flex items-center gap-2">
-            <Sliders className="w-4 h-4 text-indigo-600" />
+      <div className="p-6 bg-white dark:bg-obsidian-900 rounded-3xl border border-slate-200/90 dark:border-white/[0.08] shadow-2xs space-y-5 transition-colors">
+        <div className="pb-3 border-b border-slate-100 dark:border-white/[0.06]">
+          <h3 className="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider flex items-center gap-2">
+            <Sliders className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
             Preparation & Schedule Constraints
           </h3>
-          <p className="text-xs text-slate-500 mt-0.5">
+          <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
             Parameters used by the backward-scheduling engine to place prep blocks
           </p>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label className="text-xs font-semibold text-slate-700 block mb-1">
+            <label className="text-xs font-semibold text-slate-700 dark:text-slate-300 block mb-1">
               Timezone
             </label>
             <input
               type="text"
               value={form.timezone}
               onChange={e => setForm((prev: UserSettings) => ({ ...prev, timezone: e.target.value }))}
-              className="w-full text-xs p-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:border-indigo-500"
+              className="w-full text-xs p-2.5 bg-slate-50 dark:bg-obsidian-800 text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-white/[0.08] rounded-xl focus:bg-white dark:focus:bg-obsidian-750 focus:outline-none focus:border-indigo-500"
             />
           </div>
 
           <div>
-            <label className="text-xs font-semibold text-slate-700 block mb-1">
+            <label className="text-xs font-semibold text-slate-700 dark:text-slate-300 block mb-1">
               Default Planning Strategy
             </label>
             <select
@@ -231,7 +279,7 @@ export const SettingsPage: React.FC = () => {
                   planningStrategy: e.target.value as PlanningStrategy,
                 }))
               }
-              className="w-full text-xs font-medium p-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:border-indigo-500"
+              className="w-full text-xs font-medium p-2.5 bg-slate-50 dark:bg-obsidian-800 text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-white/[0.08] rounded-xl focus:bg-white dark:focus:bg-obsidian-750 focus:outline-none focus:border-indigo-500"
             >
               <option value="standard">Standard (Evenly spaced across remaining days)</option>
               <option value="early_bird">Early Bird (Finish 1 day before deadline)</option>
@@ -240,7 +288,7 @@ export const SettingsPage: React.FC = () => {
           </div>
 
           <div>
-            <label className="text-xs font-semibold text-slate-700 block mb-1">
+            <label className="text-xs font-semibold text-slate-700 dark:text-slate-300 block mb-1">
               Working Hours Window
             </label>
             <div className="flex items-center gap-2">
@@ -253,7 +301,7 @@ export const SettingsPage: React.FC = () => {
                     preferredWorkingHours: { ...prev.preferredWorkingHours, start: e.target.value },
                   }))
                 }
-                className="w-full text-xs p-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none"
+                className="w-full text-xs p-2 bg-slate-50 dark:bg-obsidian-800 text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-white/[0.08] rounded-xl focus:outline-none"
               />
               <span className="text-xs text-slate-400">to</span>
               <input
@@ -265,13 +313,13 @@ export const SettingsPage: React.FC = () => {
                     preferredWorkingHours: { ...prev.preferredWorkingHours, end: e.target.value },
                   }))
                 }
-                className="w-full text-xs p-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none"
+                className="w-full text-xs p-2 bg-slate-50 dark:bg-obsidian-800 text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-white/[0.08] rounded-xl focus:outline-none"
               />
             </div>
           </div>
 
           <div>
-            <label className="text-xs font-semibold text-slate-700 block mb-1">
+            <label className="text-xs font-semibold text-slate-700 dark:text-slate-300 block mb-1">
               Daily Preparation Limit
             </label>
             <div className="flex items-center gap-2">
@@ -286,9 +334,9 @@ export const SettingsPage: React.FC = () => {
                     dailyPrepLimitMinutes: parseInt(e.target.value, 10) || 180,
                   }))
                 }
-                className="w-full text-xs p-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none"
+                className="w-full text-xs p-2 bg-slate-50 dark:bg-obsidian-800 text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-white/[0.08] rounded-xl focus:outline-none"
               />
-              <span className="text-xs text-slate-500 font-medium whitespace-nowrap">
+              <span className="text-xs text-slate-500 dark:text-slate-400 font-medium whitespace-nowrap">
                 minutes / day ({Math.round(form.dailyPrepLimitMinutes / 60 * 10) / 10}h)
               </span>
             </div>
@@ -300,7 +348,7 @@ export const SettingsPage: React.FC = () => {
       <div className="flex justify-end">
         <button
           onClick={handleSave}
-          className="flex items-center gap-2 px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-sm rounded-xl shadow-xs transition-colors"
+          className="flex items-center gap-2 px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 active:scale-[0.98] text-white font-semibold text-sm rounded-xl shadow-xs transition-colors"
         >
           <Save className="w-4 h-4" />
           <span>Save Preferences</span>
@@ -308,13 +356,13 @@ export const SettingsPage: React.FC = () => {
       </div>
 
       {/* Demo & Data Management Card */}
-      <div className="p-6 bg-white rounded-2xl border border-slate-200/90 shadow-2xs space-y-4">
-        <div className="pb-3 border-b border-slate-100">
-          <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wider flex items-center gap-2">
+      <div className="p-6 bg-white dark:bg-obsidian-900 rounded-3xl border border-slate-200/90 dark:border-white/[0.08] shadow-2xs space-y-4 transition-colors">
+        <div className="pb-3 border-b border-slate-100 dark:border-white/[0.06]">
+          <h3 className="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider flex items-center gap-2">
             <RotateCcw className="w-4 h-4 text-slate-500" />
             Hackathon Demonstration & Data Management
           </h3>
-          <p className="text-xs text-slate-500 mt-0.5">
+          <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
             Reset workspace, reload fresh demo sample assignments, or wipe storage
           </p>
         </div>
@@ -325,7 +373,7 @@ export const SettingsPage: React.FC = () => {
               loadDemoData();
               success('Demo data refreshed relative to current dates!');
             }}
-            className="flex items-center gap-2 px-4 py-2 bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200 rounded-xl text-xs font-semibold transition-colors"
+            className="flex items-center gap-2 px-4 py-2 bg-amber-50 dark:bg-amber-950/40 hover:bg-amber-100 text-amber-800 dark:text-amber-300 border border-amber-200 dark:border-amber-800/60 rounded-xl text-xs font-semibold transition-colors"
           >
             <RotateCcw className="w-3.5 h-3.5" />
             <span>Reload Fresh Demo Tasks</span>
@@ -338,7 +386,7 @@ export const SettingsPage: React.FC = () => {
                 info('All tasks and inbox history cleared.');
               }
             }}
-            className="flex items-center gap-2 px-4 py-2 bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 rounded-xl text-xs font-semibold transition-colors"
+            className="flex items-center gap-2 px-4 py-2 bg-rose-50 dark:bg-rose-950/40 hover:bg-rose-100 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-rose-900/60 rounded-xl text-xs font-semibold transition-colors"
           >
             <Trash2 className="w-3.5 h-3.5" />
             <span>Clear All Data</span>

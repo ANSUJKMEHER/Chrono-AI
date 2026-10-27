@@ -80,6 +80,7 @@ export interface InboxItem {
 }
 
 export interface UserSettings {
+  theme?: 'light' | 'dark';
   timezone: string;
   preferredWorkingHours: {
     start: string; // "09:00"
