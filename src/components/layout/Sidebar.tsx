@@ -81,8 +81,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
   const hasEnvKey = Boolean(env?.VITE_NVIDIA_API_KEY);
   const isAiActive = (settings.aiProvider !== 'fallback_only' && settings.apiKey.length > 0) || hasEnvKey;
   const activeModelName = hasEnvKey && settings.aiProvider === 'fallback_only'
-    ? 'Llama 3.1 70B (NVIDIA)'
-    : settings.modelName || 'LLM';
+    ? 'Nemotron 3 Ultra 550B (NVIDIA)'
+    : settings.modelName || 'Nemotron 3 Ultra 550B';
 
   return (
     <>

@@ -21,7 +21,7 @@ export const DEFAULT_SETTINGS: UserSettings = {
   aiProvider: 'fallback_only',
   apiKey: '',
   apiEndpoint: 'https://integrate.api.nvidia.com/v1',
-  modelName: 'meta/llama-3.1-70b-instruct',
+  modelName: 'nvidia/nemotron-3-ultra-550b-a55b',
 };
 
 // Safe JSON Parse wrapper

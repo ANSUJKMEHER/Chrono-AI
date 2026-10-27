@@ -99,7 +99,7 @@ export const SettingsPage: React.FC = () => {
 
                 if (prov === 'nvidia') {
                   endpoint = 'https://integrate.api.nvidia.com/v1';
-                  model = 'meta/llama-3.1-70b-instruct';
+                  model = 'nvidia/nemotron-3-ultra-550b-a55b';
                 } else if (prov === 'openai') {
                   endpoint = 'https://api.openai.com/v1';
                   model = 'gpt-4o-mini';
@@ -115,7 +115,7 @@ export const SettingsPage: React.FC = () => {
               className="w-full text-xs font-medium p-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:border-indigo-500"
             >
               <option value="fallback_only">Deterministic Rule Parser (Offline / No Key Needed)</option>
-              <option value="nvidia">NVIDIA NIM (Llama 3.1 70B Instruct)</option>
+              <option value="nvidia">NVIDIA NIM (Nemotron 3 Ultra 550B - Flagship)</option>
               <option value="openai">OpenAI (GPT-4o / GPT-4o-mini)</option>
               <option value="custom">Custom OpenAI-Compatible API Endpoint</option>
             </select>

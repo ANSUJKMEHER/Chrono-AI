@@ -89,8 +89,24 @@ export async function extractTasksFromText(
     };
     const endpoint = getEndpoint(effectiveSettings);
     const model = effectiveProvider === 'nvidia'
-      ? (settings.modelName || 'meta/llama-3.1-70b-instruct')
+      ? (settings.modelName && !settings.modelName.includes('llama') ? settings.modelName : 'nvidia/nemotron-3-ultra-550b-a55b')
       : (settings.modelName || 'gpt-4o-mini');
+
+    const requestBody: Record<string, any> = {
+      model,
+      messages: [
+        { role: 'system', content: SYSTEM_PROMPT },
+        { role: 'user', content: trimmed },
+      ],
+      temperature: 0.1,
+      max_tokens: 2048,
+    };
+
+    if (model.includes('nemotron')) {
+      requestBody.chat_template_kwargs = { enable_thinking: false };
+    } else {
+      requestBody.response_format = { type: 'json_object' };
+    }
 
     const response = await fetch(endpoint, {
       method: 'POST',
@@ -98,15 +114,7 @@ export async function extractTasksFromText(
         'Content-Type': 'application/json',
         Authorization: `Bearer ${apiKey}`,
       },
-      body: JSON.stringify({
-        model,
-        messages: [
-          { role: 'system', content: SYSTEM_PROMPT },
-          { role: 'user', content: trimmed },
-        ],
-        temperature: 0.1,
-        response_format: { type: 'json_object' },
-      }),
+      body: JSON.stringify(requestBody),
     });
 
     if (!response.ok) {
@@ -211,18 +219,26 @@ export async function testAIConnection(settings: UserSettings): Promise<{ succes
 
   try {
     const endpoint = getEndpoint(settings);
-    const model = settings.modelName || 'meta/llama-3.1-70b-instruct';
+    const model = settings.modelName && !settings.modelName.includes('llama')
+      ? settings.modelName
+      : (settings.aiProvider === 'nvidia' ? 'nvidia/nemotron-3-ultra-550b-a55b' : 'gpt-4o-mini');
+
+    const testBody: Record<string, any> = {
+      model,
+      messages: [{ role: 'user', content: 'Say "pong"' }],
+      max_tokens: 15,
+    };
+    if (model.includes('nemotron')) {
+      testBody.chat_template_kwargs = { enable_thinking: false };
+    }
+
     const response = await fetch(endpoint, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${apiKey}`,
       },
-      body: JSON.stringify({
-        model,
-        messages: [{ role: 'user', content: 'Say "pong"' }],
-        max_tokens: 5,
-      }),
+      body: JSON.stringify(testBody),
     });
 
     if (response.ok) {
