@@ -29,34 +29,31 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
       {/* 1. Onboarding Hero Card (can be dismissed or kept) */}
       <OnboardingHero onOpenAddModal={onOpenAddModal} />
 
-      {/* 2. Welcome Banner */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-gradient-to-r from-slate-900 to-indigo-950 text-white p-6 rounded-2xl shadow-lg relative overflow-hidden">
-        <div className="relative z-10">
+      {/* 2. Sleek Contextual Greeting Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 py-1">
+        <div>
           <div className="flex items-center gap-2 mb-1">
-            <span className="text-xs font-bold uppercase tracking-wider text-indigo-300">
+            <span className="text-[11px] font-bold uppercase tracking-wider text-indigo-700 bg-indigo-50 border border-indigo-200/60 px-2.5 py-0.5 rounded-md">
               Deadline Intelligence Console
             </span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight">
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
             {greeting}
           </h1>
-          <p className="text-sm text-slate-300 mt-1 max-w-xl">
-            {subtitle} ChronoAI converts unstructured emails and announcements into backward preparation schedules.
+          <p className="text-xs sm:text-sm text-slate-500 mt-1">
+            {subtitle} ChronoAI converts unstructured assignment announcements into backward preparation schedules.
           </p>
         </div>
 
-        <div className="relative z-10 flex items-center gap-3">
+        <div className="flex items-center gap-2.5">
           <button
             onClick={onOpenAddModal}
-            className="flex items-center gap-2 px-5 py-2.5 bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 text-white font-semibold text-sm rounded-xl shadow-md shadow-indigo-600/30 transition-all hover:scale-[1.02]"
+            className="flex items-center gap-2 px-4.5 py-2.5 bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white font-semibold text-xs sm:text-sm rounded-xl shadow-xs shadow-indigo-600/20 transition-all hover:scale-[1.02]"
           >
             <Plus className="w-4 h-4 stroke-[2.5]" />
             <span>Import a Deadline</span>
           </button>
         </div>
-
-        {/* Subtle decorative glow */}
-        <div className="absolute right-0 top-0 bottom-0 w-80 bg-indigo-500/10 blur-3xl rounded-full pointer-events-none" />
       </div>
 
       {/* 3. Smart Workload Intelligence Insights */}

@@ -55,7 +55,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
       id: 'plans',
       label: 'Preparation Plans',
       icon: ListTodo,
-      badge: stats.todaySessions.length > 0 ? `${stats.todaySessions.length} active` : undefined,
+      badge: stats.todaySessions.length > 0 ? `${stats.todaySessions.length}` : undefined,
       badgeColor: 'bg-blue-100 text-blue-700',
     },
     {
@@ -127,7 +127,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             className="w-full flex items-center justify-center gap-2 py-2.5 px-4 bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white font-medium text-sm rounded-xl shadow-sm shadow-indigo-600/25 transition-all group"
           >
             <Plus className="w-4 h-4 stroke-[2.5] group-hover:rotate-90 transition-transform duration-200" />
-            <span>+ Add from Text</span>
+            <span>Add from Text</span>
           </button>
         </div>
 
@@ -156,7 +156,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 </div>
                 {item.badge && (
                   <span
-                    className={`text-[11px] px-2 py-0.5 rounded-full font-medium ${item.badgeColor}`}
+                    className={`text-[11px] px-2 py-0.5 rounded-full font-semibold whitespace-nowrap shrink-0 ${item.badgeColor}`}
                   >
                     {item.badge}
                   </span>
