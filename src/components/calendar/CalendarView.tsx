@@ -9,8 +9,11 @@ import {
   Plus,
   Flag,
   ListTodo,
+  Download,
 } from 'lucide-react';
 import { useTasks } from '../../context/TaskContext';
+import { useToast } from '../common/Toast';
+import { exportTasksToICS } from '../../utils/icsExport';
 import { Task, CalendarEventItem } from '../../types/task';
 import {
   parseDateSafe,
@@ -30,6 +33,7 @@ export const CalendarView: React.FC<CalendarViewProps> = ({
   onOpenAddModal,
 }) => {
   const { calendarEvents, tasks } = useTasks();
+  const { toast } = useToast();
   const [currentDate, setCurrentDate] = useState(() => new Date());
   const [viewMode, setViewMode] = useState<'month' | 'week'>('month');
 
@@ -167,6 +171,23 @@ export const CalendarView: React.FC<CalendarViewProps> = ({
 
         {/* View Toggle & Navigation Controls */}
         <div className="flex items-center gap-2">
+          {/* Export to Google Calendar / .ICS */}
+          <button
+            onClick={() => {
+              if (tasks.length === 0) {
+                toast('No tasks to export yet.', 'warning');
+                return;
+              }
+              exportTasksToICS(tasks, 'chronoai-full-calendar.ics');
+              toast('Full calendar exported as .ics file. Ready to import into Google Calendar!', 'success');
+            }}
+            className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-slate-700 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 shadow-2xs transition-all"
+            title="Export all deadlines & preparation blocks to .ics file"
+          >
+            <Download className="w-3.5 h-3.5 text-indigo-600" />
+            <span>Export .ICS</span>
+          </button>
+
           {/* Month / Week switcher */}
           <div className="flex items-center bg-slate-100 p-1 rounded-xl border border-slate-200">
             <button

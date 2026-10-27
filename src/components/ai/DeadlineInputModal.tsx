@@ -68,21 +68,36 @@ export const DeadlineInputModal: React.FC<DeadlineInputModalProps> = ({
     }
 
     setIsProcessing(true);
-    setLoadingStep('Analyzing text and parsing deadline syntax...');
+    setLoadingStep('1/4 Scanning natural language & deadline syntax...');
+
+    const timer1 = setTimeout(() => {
+      setLoadingStep('2/4 Identifying courses, priorities & subtasks...');
+    }, 400);
+
+    const timer2 = setTimeout(() => {
+      setLoadingStep('3/4 Detecting dates & resolving ambiguities...');
+    }, 800);
+
+    const timer3 = setTimeout(() => {
+      setLoadingStep('4/4 Synthesizing backward preparation plan...');
+    }, 1200);
 
     try {
       const response = await extractTasksFromText(rawText, settings);
+      clearTimeout(timer1);
+      clearTimeout(timer2);
+      clearTimeout(timer3);
       setExtractedCandidates(response.tasks);
       setParserMode(response.parserMode);
       setModelUsed(response.modelUsed);
 
       if (response.error) {
         warning(response.error);
-      } else if (response.parserMode === 'fallback') {
-        // Helpful notification of fallback
-        // toast info
       }
     } catch (err: any) {
+      clearTimeout(timer1);
+      clearTimeout(timer2);
+      clearTimeout(timer3);
       error(`Extraction failed: ${err.message || 'Unknown error'}`);
     } finally {
       setIsProcessing(false);
@@ -213,7 +228,8 @@ export const DeadlineInputModal: React.FC<DeadlineInputModalProps> = ({
     onClose();
   };
 
-  const isAiActive = settings.aiProvider !== 'fallback_only' && settings.apiKey.length > 0;
+  const env = (import.meta as any).env;
+  const isAiActive = (settings.aiProvider !== 'fallback_only' && settings.apiKey.length > 0) || Boolean(env?.VITE_NVIDIA_API_KEY);
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-in fade-in duration-200">
@@ -292,6 +308,26 @@ export const DeadlineInputModal: React.FC<DeadlineInputModalProps> = ({
                   {rawText.length} chars
                 </div>
               </div>
+
+              {/* Live Intelligence Pipeline Indicator */}
+              {isProcessing && (
+                <div className="p-4 bg-indigo-50/90 border border-indigo-200 rounded-xl space-y-2 animate-in fade-in duration-200">
+                  <div className="flex items-center justify-between text-xs font-bold text-indigo-950">
+                    <span className="flex items-center gap-2">
+                      <Sparkles className="w-4 h-4 text-indigo-600 animate-spin" />
+                      Deconstructing Assignment Requirements
+                    </span>
+                    <span className="text-[11px] font-mono text-indigo-700 font-semibold">{loadingStep.slice(0, 3)}</span>
+                  </div>
+                  <div className="text-xs text-indigo-900 font-semibold flex items-center gap-1.5">
+                    <ArrowRight className="w-3.5 h-3.5 text-indigo-500" />
+                    <span>{loadingStep.slice(4)}</span>
+                  </div>
+                  <div className="w-full h-1.5 bg-indigo-200/70 rounded-full overflow-hidden">
+                    <div className="h-full bg-gradient-to-r from-indigo-500 to-violet-600 rounded-full animate-pulse transition-all duration-300 w-4/5" />
+                  </div>
+                </div>
+              )}
 
               {/* Mode indicator banner */}
               <div className="p-3.5 bg-slate-50 rounded-xl border border-slate-200/80 flex items-start gap-3 text-xs text-slate-600">

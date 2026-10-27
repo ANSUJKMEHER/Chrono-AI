@@ -15,10 +15,12 @@ import {
   ChevronRight,
   Sliders,
   ExternalLink,
+  Download,
 } from 'lucide-react';
 import { Task, TaskPriority, PlanningStrategy } from '../../types/task';
 import { useTasks } from '../../context/TaskContext';
 import { useToast } from '../common/Toast';
+import { exportTasksToICS } from '../../utils/icsExport';
 import {
   formatFriendlyDate,
   formatTime12h,
@@ -434,12 +436,25 @@ export const TaskDetailsModal: React.FC<TaskDetailsModalProps> = ({ task, onClos
 
         {/* Footer Actions */}
         <div className="px-6 py-4 border-t border-slate-100 bg-slate-50/70 flex items-center justify-between">
-          <button
-            onClick={() => setShowDeleteConfirm(true)}
-            className="text-xs font-semibold text-rose-600 hover:text-rose-700 hover:bg-rose-50 px-3 py-1.5 rounded-lg transition-colors"
-          >
-            Delete Task
-          </button>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => {
+                exportTasksToICS([task], `${task.title.replace(/\s+/g, '-').toLowerCase()}.ics`);
+                success('Schedule exported as .ics calendar file.');
+              }}
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-slate-700 bg-white border border-slate-200 hover:bg-slate-50 rounded-lg transition-colors shadow-2xs"
+              title="Download RFC 5545 calendar file for Google Calendar or Apple Calendar"
+            >
+              <Download className="w-3.5 h-3.5 text-indigo-600" />
+              <span>Export .ICS</span>
+            </button>
+            <button
+              onClick={() => setShowDeleteConfirm(true)}
+              className="text-xs font-semibold text-rose-600 hover:text-rose-700 hover:bg-rose-50 px-3 py-1.5 rounded-lg transition-colors"
+            >
+              Delete
+            </button>
+          </div>
 
           <div className="flex items-center gap-2">
             <button

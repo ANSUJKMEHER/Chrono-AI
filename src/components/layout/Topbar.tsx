@@ -20,7 +20,8 @@ export const Topbar: React.FC<TopbarProps> = ({
   const { settings, isDemoLoaded, loadDemoData, clearAllData } = useTasks();
   const { toast } = useToast();
 
-  const isAiActive = settings.aiProvider !== 'fallback_only' && settings.apiKey.length > 0;
+  const env = (import.meta as any).env;
+  const isAiActive = (settings.aiProvider !== 'fallback_only' && settings.apiKey.length > 0) || Boolean(env?.VITE_NVIDIA_API_KEY);
 
   const handleDemoToggle = () => {
     if (isDemoLoaded) {
@@ -51,8 +52,13 @@ export const Topbar: React.FC<TopbarProps> = ({
             value={searchQuery}
             onChange={e => setSearchQuery(e.target.value)}
             placeholder="Search assignments, tags, or prep sessions..."
-            className="w-full pl-9 pr-4 py-1.5 bg-slate-50 hover:bg-slate-100/80 focus:bg-white text-xs sm:text-sm text-slate-800 placeholder-slate-400 rounded-xl border border-slate-200/80 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all"
+            className="w-full pl-9 pr-14 py-1.5 bg-slate-50 hover:bg-slate-100/80 focus:bg-white text-xs sm:text-sm text-slate-800 placeholder-slate-400 rounded-xl border border-slate-200/80 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all"
           />
+          <div className="absolute right-2.5 top-1/2 -translate-y-1/2 hidden sm:flex items-center gap-0.5 pointer-events-none">
+            <kbd className="text-[10px] font-mono text-slate-400 bg-white border border-slate-200 px-1 py-0.5 rounded shadow-3xs">
+              Ctrl+K
+            </kbd>
+          </div>
         </div>
       </div>
 

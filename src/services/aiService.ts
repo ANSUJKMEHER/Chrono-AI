@@ -58,10 +58,16 @@ export async function extractTasksFromText(
     return { tasks: [], parserMode: 'fallback' };
   }
 
-  // Check if user has an AI key configured and is not fallback_only
+  // Check if user has an AI key configured — auto-detect NVIDIA env key
   const env = (import.meta as any).env;
-  const apiKey = settings.apiKey.trim() || (env?.VITE_NVIDIA_API_KEY as string | undefined) || '';
-  const canUseAI = settings.aiProvider !== 'fallback_only' && apiKey.length > 0;
+  const envKey = (env?.VITE_NVIDIA_API_KEY as string | undefined) || '';
+  const apiKey = settings.apiKey.trim() || envKey;
+
+  // Auto-detect: if env key exists, treat provider as nvidia even if settings say fallback_only
+  const effectiveProvider = (settings.aiProvider === 'fallback_only' && envKey.length > 0)
+    ? 'nvidia'
+    : settings.aiProvider;
+  const canUseAI = effectiveProvider !== 'fallback_only' && apiKey.length > 0;
 
   if (!canUseAI) {
     // Honest deterministic fallback
@@ -74,8 +80,17 @@ export async function extractTasksFromText(
 
   // Attempt real AI call
   try {
-    const endpoint = getEndpoint(settings);
-    const model = settings.modelName || 'meta/llama-3.1-70b-instruct';
+    const effectiveSettings = {
+      ...settings,
+      aiProvider: effectiveProvider,
+      apiEndpoint: effectiveProvider === 'nvidia' && !settings.apiEndpoint.includes('nvidia')
+        ? 'https://integrate.api.nvidia.com/v1'
+        : settings.apiEndpoint,
+    };
+    const endpoint = getEndpoint(effectiveSettings);
+    const model = effectiveProvider === 'nvidia'
+      ? (settings.modelName || 'meta/llama-3.1-70b-instruct')
+      : (settings.modelName || 'gpt-4o-mini');
 
     const response = await fetch(endpoint, {
       method: 'POST',

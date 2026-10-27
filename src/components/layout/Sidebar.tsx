@@ -77,7 +77,12 @@ export const Sidebar: React.FC<SidebarProps> = ({
     setIsOpenMobile(false);
   };
 
-  const isAiActive = settings.aiProvider !== 'fallback_only' && settings.apiKey.length > 0;
+  const env = (import.meta as any).env;
+  const hasEnvKey = Boolean(env?.VITE_NVIDIA_API_KEY);
+  const isAiActive = (settings.aiProvider !== 'fallback_only' && settings.apiKey.length > 0) || hasEnvKey;
+  const activeModelName = hasEnvKey && settings.aiProvider === 'fallback_only'
+    ? 'Llama 3.1 70B (NVIDIA)'
+    : settings.modelName || 'LLM';
 
   return (
     <>
@@ -178,7 +183,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             </div>
             <p className="text-[11px] text-slate-500 leading-snug">
               {isAiActive
-                ? `Connected to ${settings.modelName || 'LLM'}`
+                ? `Connected to ${activeModelName}`
                 : 'Deterministic regex & natural date parser active.'}
             </p>
           </div>

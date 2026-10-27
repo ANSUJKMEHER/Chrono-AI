@@ -7,9 +7,11 @@ import {
   AlertTriangle,
   ChevronRight,
   ListTodo,
+  Flame,
+  ShieldCheck,
 } from 'lucide-react';
 import { Task } from '../../types/task';
-import { formatFriendlyDate, getRelativeTimeString } from '../../utils/dateUtils';
+import { formatFriendlyDate, getRelativeTimeString, parseDateTime } from '../../utils/dateUtils';
 import { useTasks } from '../../context/TaskContext';
 
 interface TaskCardProps {
@@ -22,6 +24,15 @@ export const TaskCard: React.FC<TaskCardProps> = ({ task, onOpenDetails }) => {
   const relative = getRelativeTimeString(task.deadlineDate, task.deadlineTime);
   const completedSubtasks = task.subtasks.filter(st => st.completed).length;
   const isCompleted = task.status === 'completed';
+
+  // Danger Score Calculation: (remaining effort) / (hours remaining)
+  const now = new Date();
+  const targetDt = parseDateTime(task.deadlineDate, task.deadlineTime);
+  const hoursUntil = targetDt ? (targetDt.getTime() - now.getTime()) / (1000 * 60 * 60) : 999;
+  const uncompletedSubtasks = task.subtasks.filter(st => !st.completed);
+  const remainingMinutes = uncompletedSubtasks.reduce((acc, st) => acc + (st.estimatedMinutes || 45), 0);
+  const remainingEffortHours = remainingMinutes > 0 ? remainingMinutes / 60 : (task.estimatedMinutes || 60) / 60;
+  const dangerRatio = hoursUntil > 0 ? remainingEffortHours / hoursUntil : 999;
 
   return (
     <div
@@ -73,6 +84,16 @@ export const TaskCard: React.FC<TaskCardProps> = ({ task, onOpenDetails }) => {
               >
                 {task.priority}
               </span>
+
+              {!isCompleted && !relative.isOverdue && dangerRatio > 0.6 && (
+                <span
+                  className="inline-flex items-center gap-1 text-[10px] font-bold px-1.5 py-0.2 rounded-md bg-rose-50 text-rose-700 border border-rose-200"
+                  title="Danger Score: high effort remaining relative to deadline window"
+                >
+                  <Flame className="w-3 h-3 text-rose-500" />
+                  Danger: {Math.round(dangerRatio * 100)}% Load
+                </span>
+              )}
             </div>
 
             <h4
