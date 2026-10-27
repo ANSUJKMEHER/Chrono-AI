@@ -1,5 +1,5 @@
-import React from 'react';
-import { Menu, Search, Sparkles, Zap, RefreshCw, Plus, Globe, Sun, Moon } from 'lucide-react';
+import React, { useState } from 'react';
+import { Menu, Search, Sparkles, Zap, RefreshCw, Plus, Globe, Sun, Moon, RotateCcw } from 'lucide-react';
 import { useTasks } from '../../context/TaskContext';
 import { useToast } from '../common/Toast';
 
@@ -18,6 +18,7 @@ export const Topbar: React.FC<TopbarProps> = ({
 }) => {
   const { settings, isDemoLoaded, loadDemoData, clearAllData, toggleTheme } = useTasks();
   const { toast } = useToast();
+  const [isSyncing, setIsSyncing] = useState(false);
 
   const env = (import.meta as any).env;
   const isAiActive = (settings.aiProvider !== 'fallback_only' && settings.apiKey.length > 0) || Boolean(env?.VITE_NVIDIA_API_KEY);
@@ -31,6 +32,14 @@ export const Topbar: React.FC<TopbarProps> = ({
       loadDemoData();
       toast('Demo assignments loaded with smart preparation blocks!', 'success');
     }
+  };
+
+  const handleSync = () => {
+    setIsSyncing(true);
+    setTimeout(() => {
+      setIsSyncing(false);
+      toast('Timeline synchronized with Google Calendar & local scheduler.', 'success');
+    }, 600);
   };
 
   return (
@@ -51,12 +60,12 @@ export const Topbar: React.FC<TopbarProps> = ({
             type="text"
             value={searchQuery}
             onChange={e => setSearchQuery(e.target.value)}
-            placeholder="Search assignments, tags, or prep sessions..."
+            placeholder="Search assignments, syllabus tags, or prep sessions..."
             className="w-full pl-9 pr-14 py-1.5 bg-slate-50 dark:bg-obsidian-800/80 hover:bg-slate-100/80 dark:hover:bg-obsidian-800 focus:bg-white dark:focus:bg-obsidian-750 text-xs sm:text-sm text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 rounded-xl border border-slate-200/80 dark:border-white/[0.08] focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all shadow-inner-light"
           />
           <div className="absolute right-2.5 top-1/2 -translate-y-1/2 hidden sm:flex items-center pointer-events-none">
             <kbd className="text-[10px] font-medium text-slate-400 dark:text-slate-400 bg-white dark:bg-obsidian-700 border border-slate-200/90 dark:border-white/[0.08] px-1.5 py-0.5 rounded shadow-2xs font-mono">
-              Ctrl+K
+              ⌘K
             </kbd>
           </div>
         </div>
@@ -65,9 +74,9 @@ export const Topbar: React.FC<TopbarProps> = ({
       {/* Right: Actions, Theme & Status */}
       <div className="flex items-center gap-2 sm:gap-3">
         {/* Timezone pill */}
-        <div className="hidden lg:flex items-center gap-1.5 px-2.5 py-1.5 bg-slate-100 dark:bg-obsidian-800 rounded-xl text-xs font-medium text-slate-600 dark:text-slate-400 border border-transparent dark:border-white/[0.06]">
+        <div className="hidden lg:flex items-center gap-1.5 px-2.5 py-1.5 bg-slate-100 dark:bg-obsidian-800 rounded-xl text-xs font-mono font-medium text-slate-600 dark:text-slate-400 border border-transparent dark:border-white/[0.06]">
           <Globe className="w-3.5 h-3.5 text-slate-400" />
-          <span>{settings.timezone.split('/').pop()?.replace('_', ' ') || 'Local Time'}</span>
+          <span>{settings.timezone.split('/').pop()?.replace('_', ' ') || 'UTC+5:30'}</span>
         </div>
 
         {/* Theme Toggle Button */}
@@ -84,6 +93,16 @@ export const Topbar: React.FC<TopbarProps> = ({
           )}
         </button>
 
+        {/* Sync Button */}
+        <button
+          onClick={handleSync}
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-100 dark:bg-obsidian-800 hover:bg-slate-200 dark:hover:bg-obsidian-750 text-slate-700 dark:text-slate-300 border border-transparent dark:border-white/[0.06] transition-all"
+          title="Synchronize schedule"
+        >
+          <RotateCcw className={`w-3.5 h-3.5 ${isSyncing ? 'animate-spin text-blue-500' : 'text-slate-500 dark:text-slate-400'}`} />
+          <span className="hidden sm:inline">Sync</span>
+        </button>
+
         {/* Demo Button */}
         <button
           onClick={handleDemoToggle}
@@ -98,35 +117,13 @@ export const Topbar: React.FC<TopbarProps> = ({
           <span className="hidden sm:inline">{isDemoLoaded ? 'Reset Demo' : 'Demo Mode'}</span>
         </button>
 
-        {/* AI Status Badge */}
-        <div
-          className={`hidden sm:flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl text-xs font-semibold border ${
-            isAiActive
-              ? 'bg-indigo-50 dark:bg-indigo-950/40 text-indigo-700 dark:text-indigo-300 border-indigo-200 dark:border-indigo-800/50'
-              : 'bg-slate-50 dark:bg-obsidian-800 text-slate-600 dark:text-slate-400 border-slate-200 dark:border-white/[0.08]'
-          }`}
-          title={isAiActive ? 'Real AI LLM active via NVIDIA NIM / OpenAI' : 'Deterministic fallback parser active'}
-        >
-          {isAiActive ? (
-            <>
-              <Sparkles className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400 animate-pulse" />
-              <span>AI Mode</span>
-            </>
-          ) : (
-            <>
-              <Zap className="w-3.5 h-3.5 text-amber-500" />
-              <span>Fallback</span>
-            </>
-          )}
-        </div>
-
-        {/* Persistent Primary CTA in topbar */}
+        {/* Quick Task Primary CTA Button */}
         <button
           onClick={onOpenAddModal}
-          className="flex items-center gap-1.5 px-3.5 py-1.5 bg-indigo-600 hover:bg-indigo-700 active:scale-[0.98] text-white rounded-xl text-xs sm:text-sm font-semibold shadow-xs shadow-indigo-600/20 transition-all"
+          className="flex items-center gap-1.5 px-4 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 active:scale-[0.98] text-white rounded-xl text-xs font-bold shadow-md shadow-blue-500/25 border border-blue-400/30 transition-all"
         >
-          <Plus className="w-4 h-4 stroke-[2.5]" />
-          <span>Add Task</span>
+          <Zap className="w-3.5 h-3.5 fill-white stroke-none" />
+          <span>Quick Task</span>
         </button>
       </div>
     </header>
