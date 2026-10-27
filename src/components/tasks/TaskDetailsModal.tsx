@@ -98,7 +98,7 @@ export const TaskDetailsModal: React.FC<TaskDetailsModalProps> = ({ task, onClos
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-slate-950/70 backdrop-blur-md animate-in fade-in duration-200">
-      <div className="bg-white dark:bg-obsidian-900 rounded-3xl shadow-2xl border border-slate-200/90 dark:border-white/[0.12] w-full max-w-2xl max-h-[92vh] flex flex-col overflow-hidden transition-colors">
+      <div className="glass-modal rounded-3xl w-full max-w-2xl max-h-[92vh] flex flex-col overflow-hidden transition-colors">
         {/* Top Header Bar */}
         <div className="px-6 py-4 border-b border-slate-100 dark:border-white/[0.06] flex items-center justify-between bg-slate-50/80 dark:bg-obsidian-850/80">
           <div className="flex items-center gap-2 flex-wrap">

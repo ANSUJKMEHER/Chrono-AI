@@ -34,7 +34,7 @@ export const Topbar: React.FC<TopbarProps> = ({
   };
 
   return (
-    <header className="h-16 bg-white/90 dark:bg-obsidian-900/90 backdrop-blur-md border-b border-slate-200/80 dark:border-white/[0.08] sticky top-0 z-30 px-4 sm:px-6 flex items-center justify-between gap-4 transition-colors">
+    <header className="h-16 bg-white/70 dark:bg-obsidian-900/70 backdrop-blur-xl border-b border-slate-200/80 dark:border-white/[0.08] sticky top-0 z-30 px-4 sm:px-6 flex items-center justify-between gap-4 transition-colors shadow-xs">
       {/* Left: Mobile hamburger & Search */}
       <div className="flex items-center gap-3 flex-1 max-w-md">
         <button

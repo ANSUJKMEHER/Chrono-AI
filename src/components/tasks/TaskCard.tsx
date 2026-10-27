@@ -34,12 +34,12 @@ export const TaskCard: React.FC<TaskCardProps> = ({ task, onOpenDetails }) => {
   return (
     <div
       onClick={() => onOpenDetails(task)}
-      className={`group relative p-4 rounded-xl border transition-all cursor-pointer ${
+      className={`group relative p-4 rounded-2xl border transition-all cursor-pointer backdrop-blur-md ${
         isCompleted
-          ? 'bg-slate-50/60 dark:bg-obsidian-900/60 border-slate-200/80 dark:border-white/[0.04] opacity-70'
+          ? 'bg-slate-50/50 dark:bg-obsidian-900/50 border-slate-200/60 dark:border-white/[0.04] opacity-70'
           : relative.isOverdue
-          ? 'bg-white dark:bg-obsidian-850 border-rose-200/80 dark:border-rose-900/40 hover:border-rose-300 shadow-2xs hover:shadow-xs'
-          : 'bg-white dark:bg-obsidian-850 border-slate-200/90 dark:border-white/[0.08] hover:border-slate-300 dark:hover:border-white/[0.18] shadow-2xs hover:shadow-xs'
+          ? 'bg-white/70 dark:bg-obsidian-850/60 border-rose-200/80 dark:border-rose-900/40 hover:border-rose-300 shadow-2xs hover:shadow-xs'
+          : 'bg-white/70 dark:bg-obsidian-850/60 border-slate-200/80 dark:border-white/[0.08] hover:border-slate-300 dark:hover:border-white/[0.2] hover:bg-white/90 dark:hover:bg-obsidian-800/80 shadow-2xs hover:shadow-xs'
       }`}
     >
       <div className="flex items-start justify-between gap-3">

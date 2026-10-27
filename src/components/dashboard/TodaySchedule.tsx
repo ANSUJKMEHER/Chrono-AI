@@ -24,7 +24,7 @@ export const TodaySchedule: React.FC<TodayScheduleProps> = ({
   const completedTodaySessions = todaySessions.filter(s => s.completed).length;
 
   return (
-    <div className="bg-white dark:bg-obsidian-900 rounded-2xl border border-slate-200/90 dark:border-white/[0.08] shadow-2xs p-5 space-y-4 transition-colors flex flex-col justify-between">
+    <div className="glass-card rounded-3xl p-6 space-y-4 transition-colors flex flex-col justify-between">
       <div>
         <div className="flex items-center justify-between mb-3">
           <div>

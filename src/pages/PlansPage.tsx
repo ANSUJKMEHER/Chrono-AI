@@ -82,7 +82,7 @@ export const PlansPage: React.FC<PlansPageProps> = ({
             return (
               <div
                 key={task.id}
-                className="p-5 sm:p-6 bg-white dark:bg-obsidian-900 rounded-3xl border border-slate-200/90 dark:border-white/[0.08] shadow-2xs space-y-5 transition-colors"
+                className="p-5 sm:p-6 glass-card rounded-3xl space-y-5 transition-colors"
               >
                 {/* Task Title & Rationale Header */}
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-100 dark:border-white/[0.06]">

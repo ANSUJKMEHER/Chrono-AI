@@ -35,7 +35,7 @@ export const UpcomingTasks: React.FC<UpcomingTasksProps> = ({
   });
 
   return (
-    <div className="bg-white dark:bg-obsidian-900 rounded-2xl border border-slate-200/90 dark:border-white/[0.08] shadow-2xs p-5 space-y-4 transition-colors">
+    <div className="glass-card rounded-3xl p-6 space-y-4 transition-colors">
       {/* Header and Filter Pills */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>

@@ -55,7 +55,7 @@ export const SummaryCards: React.FC = () => {
         return (
           <div
             key={i}
-            className={`p-4 sm:p-5 rounded-2xl bg-white dark:bg-obsidian-900 border ${c.border} shadow-2xs hover:shadow-xs transition-all flex flex-col justify-between group`}
+            className={`p-4 sm:p-5 rounded-3xl glass-card border ${c.border} hover:scale-[1.02] transition-all flex flex-col justify-between group`}
           >
             <div className="flex items-center justify-between mb-3">
               <span className="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">

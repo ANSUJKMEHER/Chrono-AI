@@ -18,7 +18,7 @@ export const SmartInsights: React.FC = () => {
 
   if (activeTasks.length === 0) {
     return (
-      <div className="bg-white dark:bg-obsidian-900 rounded-2xl border border-slate-200/90 dark:border-white/[0.08] shadow-2xs p-5 flex items-center justify-between transition-colors">
+      <div className="glass-card rounded-3xl p-5 flex items-center justify-between transition-colors">
         <div className="flex items-center gap-3">
           <div className="w-9 h-9 rounded-xl bg-indigo-50 dark:bg-indigo-950/80 border border-indigo-100 dark:border-indigo-800/60 flex items-center justify-center text-indigo-600 dark:text-indigo-400">
             <Brain className="w-5 h-5" />
@@ -52,7 +52,7 @@ export const SmartInsights: React.FC = () => {
   const mostUrgent = stats.upcomingTasks[0];
 
   return (
-    <div className="bg-white dark:bg-obsidian-900 rounded-2xl border border-slate-200/90 dark:border-white/[0.08] shadow-2xs p-5 space-y-3.5 transition-colors">
+    <div className="glass-card rounded-3xl p-5 space-y-3.5 transition-colors">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <div className="w-7 h-7 rounded-lg bg-indigo-50 dark:bg-indigo-950/80 border border-indigo-100 dark:border-indigo-800/60 flex items-center justify-center text-indigo-600 dark:text-indigo-400">

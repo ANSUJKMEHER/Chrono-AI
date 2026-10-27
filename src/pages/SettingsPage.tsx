@@ -61,7 +61,7 @@ export const SettingsPage: React.FC = () => {
       </div>
 
       {/* Appearance & Interface Theme Card */}
-      <div className="p-6 bg-white dark:bg-obsidian-900 rounded-3xl border border-slate-200/90 dark:border-white/[0.08] shadow-2xs space-y-4 transition-colors">
+      <div className="p-6 glass-card rounded-3xl space-y-4 transition-colors">
         <div className="pb-3 border-b border-slate-100 dark:border-white/[0.06] flex items-center justify-between">
           <div>
             <h3 className="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider flex items-center gap-2">
@@ -110,7 +110,7 @@ export const SettingsPage: React.FC = () => {
       </div>
 
       {/* AI Engine Configuration Card */}
-      <div className="p-6 bg-white dark:bg-obsidian-900 rounded-3xl border border-slate-200/90 dark:border-white/[0.08] shadow-2xs space-y-5 transition-colors">
+      <div className="p-6 glass-card rounded-3xl space-y-5 transition-colors">
         <div className="flex items-start justify-between gap-3 pb-3 border-b border-slate-100 dark:border-white/[0.06]">
           <div>
             <h3 className="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider flex items-center gap-2">
@@ -243,7 +243,7 @@ export const SettingsPage: React.FC = () => {
       </div>
 
       {/* Preparation Planning Constraints Card */}
-      <div className="p-6 bg-white dark:bg-obsidian-900 rounded-3xl border border-slate-200/90 dark:border-white/[0.08] shadow-2xs space-y-5 transition-colors">
+      <div className="p-6 glass-card rounded-3xl space-y-5 transition-colors">
         <div className="pb-3 border-b border-slate-100 dark:border-white/[0.06]">
           <h3 className="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider flex items-center gap-2">
             <Sliders className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
@@ -356,7 +356,7 @@ export const SettingsPage: React.FC = () => {
       </div>
 
       {/* Demo & Data Management Card */}
-      <div className="p-6 bg-white dark:bg-obsidian-900 rounded-3xl border border-slate-200/90 dark:border-white/[0.08] shadow-2xs space-y-4 transition-colors">
+      <div className="p-6 glass-card rounded-3xl space-y-4 transition-colors">
         <div className="pb-3 border-b border-slate-100 dark:border-white/[0.06]">
           <h3 className="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider flex items-center gap-2">
             <RotateCcw className="w-4 h-4 text-slate-500" />

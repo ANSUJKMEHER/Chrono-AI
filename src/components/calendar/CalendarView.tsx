@@ -169,7 +169,7 @@ export const CalendarView: React.FC<CalendarViewProps> = ({
   const prepCount = calendarEvents.filter(e => e.type === 'preparation').length;
 
   return (
-    <div className="bg-white dark:bg-obsidian-900 rounded-3xl border border-slate-200/90 dark:border-white/[0.08] shadow-2xs overflow-hidden flex flex-col transition-colors">
+    <div className="glass-card rounded-3xl overflow-hidden flex flex-col transition-colors">
       {/* Calendar Top Bar */}
       <div className="p-4 sm:p-5 border-b border-slate-100 dark:border-white/[0.06] flex flex-col lg:flex-row lg:items-center justify-between gap-4 bg-slate-50/60 dark:bg-obsidian-850/60">
         <div className="flex items-center gap-3">
@@ -502,7 +502,7 @@ export const CalendarView: React.FC<CalendarViewProps> = ({
       {/* Event Quick Preview Drawer / Popover Modal */}
       {selectedPreviewEvent && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-sm animate-in fade-in duration-200">
-          <div className="bg-white dark:bg-obsidian-900 rounded-3xl shadow-2xl border border-slate-200/90 dark:border-white/[0.12] w-full max-w-md p-6 space-y-4">
+          <div className="glass-modal rounded-3xl w-full max-w-md p-6 space-y-4">
             <div className="flex items-start justify-between gap-3">
               <div className="flex items-center gap-2">
                 <span

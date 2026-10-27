@@ -73,7 +73,7 @@ export const InboxPage: React.FC<InboxPageProps> = ({ onOpenAddModal }) => {
           {inbox.map((item: InboxItem) => (
             <div
               key={item.id}
-              className="p-5 bg-white dark:bg-obsidian-900 rounded-3xl border border-slate-200/90 dark:border-white/[0.08] shadow-2xs space-y-4 hover:border-slate-300 dark:hover:border-white/[0.15] transition-all"
+              className="p-5 glass-card rounded-3xl space-y-4 hover:border-slate-300 dark:hover:border-white/[0.15] transition-all"
             >
               {/* Header */}
               <div className="flex items-start justify-between gap-3">
